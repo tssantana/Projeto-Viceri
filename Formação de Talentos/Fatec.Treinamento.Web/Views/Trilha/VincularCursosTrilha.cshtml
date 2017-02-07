@@ -1,0 +1,30 @@
+﻿@model  Fatec.Treinamento.Web.Models.VincularCursosTrilhaViewModel
+@{
+    Layout = null;
+    ViewBag.Title = "Detalhes";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">@Html.DisplayFor(modal => Model.Trilha.Nome)</h4>
+        </div>
+        <div class="modal-body">
+            @foreach (var Curso in Model.Trilha.Cursos)
+            {
+
+                <a href="@Url.Action("Detalhes", "Curso", new { Curso.Id })">@Curso.Nome</a>
+                <br />
+                for (var i = 0; i <= Curso.Classificacao; i++)
+                {
+                    <span class="glyphicon glyphicon-star estrela-classificacao"></span>
+                }
+                <br />
+            }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

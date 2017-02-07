@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Fatec.Treinamento.Model.Trilha>
+@{
+    ViewBag.Title = "Trilhas";
+}
+<h2>Trilhas</h2>
+@if (this.User.IsInRole("Instrutor") || this.User.IsInRole("Administrador"))
+//Valida se o usuário é administrador e exibe o menu de administração.
+{
+
+    <p>
+        <a href="@Url.Action("Criar")" class="btn btn-primary">Nova Trilha</a>
+    </p>
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th class="center-customize">
+                @Html.DisplayNameFor(model => model.Ativa)
+            </th>
+            <th class="center-customize">
+                Editar
+            </th>
+            <th class="center-customize">
+                Excluir
+            </th>
+            <th class="center-customize">
+                Ver Cursos
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td class="center-customize">
+                    @Html.DisplayFor(modelItem => item.Ativa)
+                </td>
+                <td class="center-customize">
+                    <a href="@Url.Action("Editar", new { @item.Id })" class="glyphicon glyphicon-edit" aria-hidden="true"></a>
+                </td>
+                <td class="center-customize">
+                    <a href="@Url.Action("Excluir", new { @item.Id })" class="glyphicon glyphicon-trash" aria-hidden="true"></a>
+                </td>
+                <td class="center-customize">
+                    <a class="glyphicon glyphicon-plus detalhes" aria-hidden="true" data-id="@item.Id"></a>
+                </td>
+                @*
+    <a class="detalhes" href="#" data-id="@item.Id">
+        Cursos da Trilha
+    </a>
+                *@
+                @*@Html.ActionLink("Cursos da Trilha", "VincularCursosTrilha", new { id = item.Id })*@
+             
+            </tr>
+        }
+    </table>
+}
+else
+{
+    foreach (var curso in Model)
+    {
+        <div class="col-lg-3 imagem-trilha">
+            <span class="detalhes" style="background-image: url('../Content/Imgs/@curso.Imagem');" data-id="@curso.Id"></span>
+            <a class="detalhes" href="#" data-id="@curso.Id">
+                @Html.DisplayFor(modal => curso.Nome)
+            </a>
+            @*
+                @Html.ActionLink(curso.Nome, "VincularCursosTrilha", new { id = curso.Id }, null)
+            *@
+        </div>
+    }
+}
+
+<div class="modal" id="modal"></div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".detalhes").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Trilha/VincularCursosTrilha/" + id, function () {
+                    $("#modal").modal("show");
+                });
+            });
+        });
+    </script>
+}

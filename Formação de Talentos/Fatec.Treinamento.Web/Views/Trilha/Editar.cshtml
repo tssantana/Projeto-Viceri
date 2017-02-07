@@ -1,0 +1,26 @@
+﻿@model Fatec.Treinamento.Model.Trilha
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>@Html.DisplayFor(modal => Model.Nome)</h2>
+
+<form class="navbar-form form-inline">
+    <div class="form-group">
+        @Html.LabelFor(modal => Model.Id)
+        @Html.TextBoxFor(modal => Model.Id, new { @class = "form-control", @disabled = "disabled" })
+
+        @Html.LabelFor(modal => Model.Nome)
+        @Html.TextBoxFor(modal => Model.Nome, new { @class = "form-control" })
+
+
+        @Html.LabelFor(modal => Model.Ativa)
+        @Html.TextBoxFor(modal => Model.Ativa, new { @class = "form-control" })
+
+        @foreach(var cursos in Model.Cursos){
+            @Html.DisplayFor(modal => cursos.Nome)
+        }
+
+    </div>
+</form>
